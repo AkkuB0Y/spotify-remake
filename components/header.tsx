@@ -4,6 +4,7 @@ import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { GoHome } from "react-icons/go";
 import { BiSearch } from "react-icons/bi";
 import { twMerge } from "tailwind-merge";
+import ButtonCustom from "./buttoncustom";
 
 interface HeaderProps {
     children: React.ReactNode;
@@ -55,8 +56,26 @@ const Header: React.FC<HeaderProps> = ({
                     </button>
                 </div>
 
-            </div>
+                <div className="flex justify-between items-center space-x-4">
+                    <>
+                        <div>
+                            <ButtonCustom className="bg-transparent text-neutral-300 font-medium">
+                                Sign Up
+                            </ButtonCustom>
+                        </div>
+                        <div>
+                            <ButtonCustom 
+                                onClick={() => {}}
+                                className="bg-white px-6 py-2">
+                                Login
+                            </ButtonCustom>
+                        </div>
+                    
+                    </>
+                </div>
 
+            </div>
+            {children}
         </div>
     );
 }
