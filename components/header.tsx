@@ -5,6 +5,7 @@ import { GoHome } from "react-icons/go";
 import { BiSearch } from "react-icons/bi";
 import { twMerge } from "tailwind-merge";
 import ButtonCustom from "./buttoncustom";
+import useAuthModal from "../hooks/useAuthModal";
 
 interface HeaderProps {
     children: React.ReactNode;
@@ -16,6 +17,7 @@ const Header: React.FC<HeaderProps> = ({
     children,
     className
 }) => {
+    const authModal =  useAuthModal();
     const router = useRouter();
 
     const logoutHandle = () => {
@@ -59,13 +61,13 @@ const Header: React.FC<HeaderProps> = ({
                 <div className="flex justify-between items-center space-x-4">
                     <>
                         <div>
-                            <ButtonCustom className="bg-transparent text-neutral-300 font-medium">
+                            <ButtonCustom onClick={authModal.onOpen} className="bg-transparent text-neutral-300 font-medium">
                                 Sign Up
                             </ButtonCustom>
                         </div>
                         <div>
                             <ButtonCustom 
-                                onClick={() => {}}
+                                onClick={authModal.onOpen}
                                 className="bg-white px-6 py-2">
                                 Login
                             </ButtonCustom>
