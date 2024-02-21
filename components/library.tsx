@@ -2,10 +2,21 @@
 import { MdLibraryMusic } from "react-icons/md";
 import { AiOutlinePlus } from "react-icons/ai";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import useAuthModal from "../hooks/useAuthModal";
+import { useUser } from "../hooks/useUser";
+import useUploadModal from "../hooks/useUploadModal";
 
 const Library = () => {
+    const authModal = useAuthModal();
+    const uploadModal = useUploadModal();
+    const { user } = useUser();
+
     const onClick = () => {
-        // to upload songs!
+        if (!user) {
+            return authModal.onOpen();
+        }
+
+        return uploadModal.onOpen();
     };
 
     return (
