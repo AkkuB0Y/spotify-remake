@@ -6,7 +6,10 @@ import { BiSearch } from "react-icons/bi";
 import { twMerge } from "tailwind-merge";
 import ButtonCustom from "./buttoncustom";
 import useAuthModal from "../hooks/useAuthModal";
-
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useUser } from "../hooks/useUser";
+import { FaUserAlt } from "react-icons/fa";
+import { toast } from "react-hot-toast";
 interface HeaderProps {
     children: React.ReactNode;
     className?: string;
@@ -20,10 +23,23 @@ const Header: React.FC<HeaderProps> = ({
     const authModal =  useAuthModal();
     const router = useRouter();
 
-    const logoutHandle = () => {
-        // handle logout later
+    const supabaseClient = useSupabaseClient();
+    const { user } = useUser();
 
+    const logoutHandle = async () => {
+        const { error } = await supabaseClient.auth.signOut();
+        // reset any playing songs
+
+        router.refresh();
+
+        if (error) {
+            toast.error(error.message);
+        }
+        else {
+            toast.success('Logged Out!');
+        }
     }
+
     return (
         <div className={twMerge(`
             h-fit
@@ -59,6 +75,24 @@ const Header: React.FC<HeaderProps> = ({
                 </div>
 
                 <div className="flex justify-between items-center space-x-4">
+                    
+                    { user ? (
+                        <div className="flex space-x-4 items-center">
+                            <ButtonCustom
+                                onClick={logoutHandle}
+                                className="bg-white px-6 py-2"
+                            >
+                                Logout
+                            </ButtonCustom>
+
+                            <ButtonCustom
+                                onClick={() => router.push('/account')}
+                                className="bg-white"
+                            >
+                                <FaUserAlt/>
+                            </ButtonCustom>
+                        </div>
+                    ) : (
                     <>
                         <div>
                             <ButtonCustom onClick={authModal.onOpen} className="bg-transparent text-neutral-300 font-medium">
@@ -72,8 +106,9 @@ const Header: React.FC<HeaderProps> = ({
                                 Login
                             </ButtonCustom>
                         </div>
-                    
                     </>
+
+                    )}
                 </div>
 
             </div>
