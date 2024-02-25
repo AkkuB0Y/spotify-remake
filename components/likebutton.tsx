@@ -53,7 +53,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
       return authModal.onOpen();
     }
 
-    if (isLiked) {
+    if (isLiked) { // if song is already liked!
       const { error } = await supabaseClient
         .from('liked_songs')
         .delete()
@@ -69,7 +69,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
       }
     } 
     
-    else {
+    else { // if song isn't liked yet
       const { error } = await supabaseClient
         .from('liked_songs')
         .insert({

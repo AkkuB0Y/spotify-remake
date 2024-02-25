@@ -8,6 +8,8 @@ import Box from "./box";
 import SideItem from "./sideitem";
 import Library from "./library";
 import { Song } from "../types";
+import usePlayer from "../hooks/usePlayer";
+import { twMerge } from "tailwind-merge";
 
 interface SidebarProps {
     children: React.ReactNode;
@@ -20,6 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
     
     const pathname = usePathname();
+    const player = usePlayer();
  
     const routes = useMemo(() => [{
         icon: GoHome,
@@ -34,8 +37,9 @@ const Sidebar: React.FC<SidebarProps> = ({
         href: '/search'
     }
     ], []);
+
     return (
-        <div className="flex h-full font-bold">
+        <div className={twMerge(`flex h-full`, player.activeId && "h-[calc(100%-80px)]")}>
             <div className="hidden md:flex flex-col space-y-2 bg-black h-full w-[300px] p-2">
                 <Box>
                     <div className="flex flex-col space-y-4 px-5 py-4">
